@@ -49,6 +49,21 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-title">Page</li>
+                <li class="sidebar-item  has-sub {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-bookmark-heart"></i>
+                        <span>Kategori</span>
+                    </a>
+                    <ul class="submenu {{ request()->routeIs('kategori.*') ? 'submenu-open' : 'submenu-closed' }}">
+                        <li class="submenu-item {{ request()->routeIs('kategori.data') ? 'active' : '' }}">
+                            <a href="{{ route('kategori.data') }}" class="submenu-link">Data</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('kategori.create') ? 'active' : '' }}">
+                            <a href="{{ route('kategori.create') }}" class="submenu-link ">Tambah</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
