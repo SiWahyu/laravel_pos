@@ -43,11 +43,11 @@ class KategoriController extends Controller
 
             // membuat log mencatat kategori baru
             Log::info("Create New Kategori `$create->nama` " . Carbon::now()->format('l, d F Y H:i:s'));
-
-            return redirect()->route('kategori.data');
         } catch (\Throwable $th) {
             Log::error("Error Create Kategori : " . $th->getMessage());
         }
+
+        return redirect()->route('kategori.data');
     }
 
     public function edit(Kategori $kategori)
@@ -66,10 +66,11 @@ class KategoriController extends Controller
 
             // membuat log mencatat update kategori
             Log::info("Update Kategori `" . $request->validated('nama') . "` " . Carbon::now()->format('l, d F Y H:i:s'));
-            return redirect()->route('kategori.data');
         } catch (\Throwable $th) {
             Log::error("Error Update Kategori : " . $th->getMessage());
         }
+
+        return redirect()->route('kategori.data');
     }
 
     public function delete(Kategori $kategori)
@@ -82,10 +83,10 @@ class KategoriController extends Controller
 
             // membuat log mencatat menghapus kategori
             Log::info("Delete Kategori `" . $kategori->nama . "` " . Carbon::now()->format('l, d F Y H:i:s'));
-
-            return back();
         } catch (\Throwable $th) {
             Log::error("Error Delete Kategori : " . $th->getMessage());
         }
+
+        return back();
     }
 }
