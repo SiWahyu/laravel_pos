@@ -64,6 +64,20 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item  has-sub {{ request()->routeIs('produk.*') ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-box"></i>
+                        <span>Produk</span>
+                    </a>
+                    <ul class="submenu {{ request()->routeIs('produk.*') ? 'submenu-open' : 'submenu-closed' }}">
+                        <li class="submenu-item {{ request()->routeIs('produk.data') ? 'active' : '' }}">
+                            <a href="{{ route('produk.data') }}" class="submenu-link">Data</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('produk.create') ? 'active' : '' }}">
+                            <a href="{{ route('produk.create') }}" class="submenu-link ">Tambah</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
