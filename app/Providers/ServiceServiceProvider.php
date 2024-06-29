@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use App\Services\KategoriService;
-use Illuminate\Support\ServiceProvider;
-use App\Services\Impl\KategoriServiceImpl;
-use App\Services\Impl\ProdukServiceImpl;
+use App\Services\AuthService;
 use App\Services\ProdukService;
+use App\Services\KategoriService;
+use App\Services\Impl\AuthServiceImpl;
+use Illuminate\Support\ServiceProvider;
+use App\Services\Impl\ProdukServiceImpl;
+use App\Services\Impl\KategoriServiceImpl;
 
 class ServiceServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,9 @@ class ServiceServiceProvider extends ServiceProvider
         });
         $this->app->bind(ProdukService::class, function ($app) {
             return new ProdukServiceImpl();
+        });
+        $this->app->bind(AuthService::class, function ($app) {
+            return new AuthServiceImpl();
         });
     }
 }
