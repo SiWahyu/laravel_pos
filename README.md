@@ -4,10 +4,10 @@ Aplikasi POS berbasis Framework Laravel dan Boostrap untuk mencatat data stok ba
 
 ### Teknologi yang Digunakan
 
--   **[Laravel](https://vehikl.com/)**
--   **[Bootstrap](https://tighten.co)**
--   **[Mazer](https://webreinvent.com/)**
--   **[Spatie Permission](https://kirschbaumdevelopment.com)**
+-   **[Laravel](https://laravel.com/)**
+-   **[Bootstrap](https://getbootstrap.com/)**
+-   **[Mazer](https://zuramai.github.io/mazer/)**
+-   **[Spatie Permission](https://spatie.be/docs/laravel-permission/v6/introduction)**
 
 ### Kontak
 
