@@ -29,6 +29,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/create', [ProdukController::class, 'store'])->name('produk.store');
         Route::delete('/{produk}/delete', [ProdukController::class, 'delete'])->name('produk.delete');
     });
+
+    Route::prefix('dashboard/customer')->group(function () {
+        Route::get('', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'index'])->name('customer.data');
+        Route::delete('/{customer}/delete', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'delete'])->name('customer.delete');
+    });
 });
 
 

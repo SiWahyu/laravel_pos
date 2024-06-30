@@ -2,6 +2,7 @@
 
 namespace App\Services\Impl;
 
+use App\Models\Customer;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Services\AuthService;
@@ -54,6 +55,7 @@ class AuthServiceImpl implements AuthService
 
         try {
 
+            // register user
             $user = User::create([
                 'username' => $data['username'],
                 'email' => $data['email'],
@@ -61,12 +63,20 @@ class AuthServiceImpl implements AuthService
             ]);
             $user->syncRoles(['customer']);
 
+            // create customer
+            Customer::create([
+                'user_id' => $user->id
+            ]);
+
+            // auth user yang baru register
             Auth::login($user);
 
             DB::commit();
 
             // membuat log mencatat register user
             Log::info("Register New User `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
+            // membuat log mencatat create customer
+            Log::info("Create Customer `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
             // membuat log mencatat user login
             Log::info("User Login `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
 

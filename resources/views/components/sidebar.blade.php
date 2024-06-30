@@ -78,6 +78,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('customer.data') }}" class='sidebar-link'>
+                        <i class="bi bi-person-badge"></i>
+                        <span>Customer</span>
+                    </a>
+                </li>
                 <li class="sidebar-title">Profile</li>
                 <li class="sidebar-item">
                     <a href="{{ route('logout') }}" class='sidebar-link'>
