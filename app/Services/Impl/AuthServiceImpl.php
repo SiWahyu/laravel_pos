@@ -2,10 +2,12 @@
 
 namespace App\Services\Impl;
 
-use App\Models\Customer;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Customer;
 use App\Services\AuthService;
+use App\Services\CustomerService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,9 @@ use Illuminate\Validation\ValidationException;
 class AuthServiceImpl implements AuthService
 {
 
+    public function __construct(private UserService $userService, private CustomerService $customerService)
+    {
+    }
 
     function findUserByEmail(string $email)
     {
@@ -55,18 +60,12 @@ class AuthServiceImpl implements AuthService
 
         try {
 
-            // register user
-            $user = User::create([
-                'username' => $data['username'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
+            $user = $this->userService->create($data);
+
             $user->syncRoles(['customer']);
 
             // create customer
-            Customer::create([
-                'user_id' => $user->id
-            ]);
+            $this->customerService->create($user);
 
             // auth user yang baru register
             Auth::login($user);
@@ -74,7 +73,7 @@ class AuthServiceImpl implements AuthService
             DB::commit();
 
             // membuat log mencatat register user
-            Log::info("Register New User `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
+            Log::info("Create User `username: $user->username email: $user->email role: Customer` " . Carbon::now()->format('l, d F Y H:i:s'));
             // membuat log mencatat create customer
             Log::info("Create Customer `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
             // membuat log mencatat user login

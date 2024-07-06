@@ -30,9 +30,23 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{produk}/delete', [ProdukController::class, 'delete'])->name('produk.delete');
     });
 
+    // Customer
     Route::prefix('dashboard/customer')->group(function () {
         Route::get('', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'index'])->name('customer.data');
         Route::delete('/{customer}/delete', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'delete'])->name('customer.delete');
+    });
+
+    // Karyawan
+    Route::prefix('dashboard/karyawan')->group(function () {
+        Route::get('', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'index'])->name('karyawan.data');
+        Route::get('/create', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'create'])->name('karyawan.create');
+        Route::post('/create', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'store'])->name('karyawan.store');
+        Route::get('/{karyawan}/edit', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'edit'])->name('karyawan.edit');
+        Route::put('/{karyawan}/edit', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'update'])->name('karyawan.update');
+        Route::delete('/{karyawan}delete', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'delete'])->name('karyawan.delete');
+        Route::get('/akun', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'dataAkun'])->name('karyawan.data-akun');
+        Route::get('/{karyawan}/register', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'form-register'])->name('karyawan.create-akun');
+        Route::post('/{karyawan}/register', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'register'])->name('karyawan.register');
     });
 });
 

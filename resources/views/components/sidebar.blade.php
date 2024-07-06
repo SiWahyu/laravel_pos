@@ -78,7 +78,21 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item  has-sub {{ request()->routeIs('karyawan.*') ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-person-up"></i>
+                        <span>Karyawan</span>
+                    </a>
+                    <ul class="submenu {{ request()->routeIs('karyawan.*') ? 'submenu-open' : 'submenu-closed' }}">
+                        <li class="submenu-item {{ request()->routeIs('karyawan.data') ? 'active' : '' }}">
+                            <a href="{{ route('karyawan.data') }}" class="submenu-link">Data</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('karyawan.create') ? 'active' : '' }}">
+                            <a href="{{ route('karyawan.create') }}" class="submenu-link ">Tambah</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('customer.data') ? 'active' : '' }}">
                     <a href="{{ route('customer.data') }}" class='sidebar-link'>
                         <i class="bi bi-person-badge"></i>
                         <span>Customer</span>

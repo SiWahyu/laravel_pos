@@ -23,11 +23,14 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->truncate();
         DB::table('roles')->truncate();
+        DB::table('customers')->truncate();
 
         $roles = [
-            ['name' => 'admin'],
-            ['name' => 'karyawan'],
-            ['name' => 'customer'],
+            ['name' => 'Admin'],
+            ['name' => 'Customer'],
+            ['name' => 'Kasir'],
+            ['name' => 'Gudang'],
+            ['name' => 'Barang'],
         ];
 
         foreach ($roles as $role) {

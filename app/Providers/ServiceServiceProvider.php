@@ -34,10 +34,19 @@ class ServiceServiceProvider extends ServiceProvider
             return new ProdukServiceImpl();
         });
         $this->app->bind(AuthService::class, function ($app) {
-            return new AuthServiceImpl();
+            return new AuthServiceImpl($app->make(\App\Services\UserService::class), $app->make(CustomerService::class));
         });
         $this->app->bind(CustomerService::class, function ($app) {
             return new CustomerServiceImpl();
+        });
+        $this->app->bind(\App\Services\KaryawanService::class, function ($app) {
+            return new \App\Services\Impl\KaryawanServiceImpl($app->make(\App\Services\UserService::class));
+        });
+        $this->app->bind(\App\Services\RoleService::class, function ($app) {
+            return new \App\Services\Impl\RoleServiceImpl();
+        });
+        $this->app->bind(\App\Services\UserService::class, function ($app) {
+            return new \App\Services\Impl\UserServiceImpl();
         });
     }
 }

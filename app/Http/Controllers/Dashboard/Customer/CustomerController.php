@@ -35,5 +35,7 @@ class CustomerController extends Controller
 
             Log::error('Error Delete Customer : ' . $th->getMessage());
         }
+
+        return redirect()->back();
     }
 }
