@@ -58,7 +58,5 @@ Route::get('/logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout
 Route::get('/register', [App\Http\Controllers\Auth\AuthController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\AuthController::class, 'registerUser'])->name('register.register-user');
 
-Route::get('test', function () {
-
-    return view('test');
-});
+Route::get('/produk', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'list'])->name('main.produk-list');
+Route::get('/produk/{produk}', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'detail'])->name('main.produk-detail');
