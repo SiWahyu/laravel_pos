@@ -98,13 +98,6 @@
                         <span>Customer</span>
                     </a>
                 </li>
-                <li class="sidebar-title">Profile</li>
-                <li class="sidebar-item">
-                    <a href="{{ route('logout') }}" class='sidebar-link'>
-                        <i class="bi bi-arrow-right-square"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>

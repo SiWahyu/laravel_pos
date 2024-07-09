@@ -36,6 +36,7 @@ class KaryawanServiceImpl implements KaryawanService
                 'password' =>  Str::lower(preg_replace('/\s+/', '', $data['nama']))
             ]);
 
+
             // create data karyawan
             $karyawan = Karyawan::create(attributes: [
                 'user_id' => $user->id,
@@ -43,6 +44,8 @@ class KaryawanServiceImpl implements KaryawanService
                 'telepon' => $data['telepon'],
                 'posisi' => $data['posisi'],
             ]);
+
+            $user->syncRoles($karyawan->posisi);
 
             // membuat log mencatat create user
             Log::info("Create User `username: $user->username email: $user->email role: $karyawan->posisi` " . Carbon::now()->format('l, d F Y H:i:s'));

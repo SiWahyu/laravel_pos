@@ -57,3 +57,8 @@ Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'authen
 Route::get('/logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [App\Http\Controllers\Auth\AuthController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\AuthController::class, 'registerUser'])->name('register.register-user');
+
+Route::get('test', function () {
+
+    return view('test');
+});

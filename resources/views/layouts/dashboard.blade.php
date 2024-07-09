@@ -25,22 +25,18 @@
 <body>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
     <div id="app">
-        @include('components.sidebar')
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
-
-            <div class="page-heading">
-                @yield('heading')
-            </div>
-            <div class="page-content">
-                @yield('content')
+        <x-sidebar.sidebar-admin />
+        <div id="main" class='layout-navbar navbar-fixed'>
+            <x-navbar />
+            <div id="main-content">
+                <div class="page-heading">
+                    @yield('heading')
+                    <section class="section">
+                        @yield('content')
+                    </section>
+                </div>
             </div>
 
-            {{-- @include('components.footer') --}}
         </div>
     </div>
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
