@@ -8,7 +8,6 @@ use App\Models\Customer;
 use App\Services\AuthService;
 use App\Services\CustomerService;
 use App\Services\UserService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -54,35 +53,20 @@ class AuthServiceImpl implements AuthService
         Auth::logout();
     }
 
-    function registerUser(array $data)
+    function registerCustomer(User $user, Customer $customer)
     {
-        DB::beginTransaction();
-
         try {
 
-            $user = $this->userService->create($data);
-
             $user->syncRoles(['customer']);
-
-            // create customer
-            $this->customerService->create($user);
 
             // auth user yang baru register
             Auth::login($user);
 
-            DB::commit();
-
-            // membuat log mencatat register user
-            Log::info("Create User `username: $user->username email: $user->email role: Customer` " . Carbon::now()->format('l, d F Y H:i:s'));
-            // membuat log mencatat create customer
-            Log::info("Create Customer `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
             // membuat log mencatat user login
             Log::info("User Login `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
 
             return $user;
         } catch (\Throwable $th) {
-            DB::rollBack();
-
             throw $th;
         }
     }

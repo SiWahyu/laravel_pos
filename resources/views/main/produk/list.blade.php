@@ -18,6 +18,9 @@
 @endsection
 @section('content')
     <div class="mt-4">
+        @if ($dataProduk->isEmpty())
+            <h4 class="text-center fw-light">Data Kosong</h4>
+        @endif
         <div
             class="row gx-2 gx-sm-3 gx-md-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 row-cols-xxl-5 justify-content-start">
             @foreach ($dataProduk as $produk)
@@ -25,13 +28,13 @@
                     <div class="card h-100 shadow-sm">
                         {{-- Status Product --}}
                         @if ($produk->stok <= 0)
-                            <div class="badge bg-danger text-white position-absolute" style="top: 0.3rem; right: 0.3rem">
+                            <span class="badge bg-danger text-white position-absolute" style="top: 0.3rem; right: 0.3rem">
                                 Habis
-                            </div>
+                            </span>
                         @else
-                            <div class="badge bg-primary text-white position-absolute" style="top: 0.3rem; right: 0.3rem">
+                            <span class="badge bg-primary text-white position-absolute" style="top: 0.3rem; right: 0.3rem">
                                 Tersedia
-                            </div>
+                            </span>
                         @endif
                         <!-- Product image-->
                         <img class="card-img-top" src="{{ asset('storage/images/produk/' . $produk->gambar) }}"

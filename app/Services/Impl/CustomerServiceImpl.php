@@ -36,8 +36,18 @@ class CustomerServiceImpl implements CustomerService
     function create(User $user)
     {
 
-        return Customer::create([
-            'user_id' => $user->id
-        ]);
+        try {
+
+            $customer = Customer::create([
+                'user_id' => $user->id
+            ]);
+
+            // membuat log mencatat create customer
+            Log::info("Create Customer `username: " . $user->username . " email: " . $user->email . "` " . Carbon::now()->format('l, d F Y H:i:s'));
+
+            return $customer;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

@@ -22,65 +22,81 @@
                 src="{{ asset('storage/images/produk/' . $produk->gambar) }}" alt="{{ $produk->nama }}" width="600px">
         </div>
         <div class="col-md-6">
-            <span class="h2 fw-bolder">{{ $produk->nama }}</span>
-            <div class="mb-3 mt-3">
-                <div> <b>Harga : </b> Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
-                <div><b>Kategori : </b> {{ $produk->kategori->nama }}</div>
-                <div><b>Stok : </b>{{ $produk->stok }}</div>
-                <div><b>Terjual : </b>10</div>
+            <form action="{{ route('cart.store', $produk->id) }}" method="post">
+                @csrf
+                <span class="h2 fw-bolder">{{ $produk->nama }}</span>
+                <div class="mb-3 mt-3">
+                    <div> <b>Harga : </b> Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
+                    <div><b>Kategori : </b> {{ $produk->kategori->nama }}</div>
+                    <div><b>Stok : </b>{{ $produk->stok }}</div>
+                    <div><b>Terjual : </b>10</div>
 
-            </div>
-            <div class="col-5 col-sm-3 col-md-4 col-lg-3 col-xl-3 mb-4">
-                <div class="mb-2">
-                    <b>Jumlah</b>
                 </div>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary" type="button" id="button-minus">-</button>
-                    <input type="text" class="form-control form-control-sm text-center border-secondary"
-                        id="inputQuantity" value="1" min="0">
-                    <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
+                <div class="col-5 col-sm-3 col-md-4 col-lg-3 col-xl-4">
+                    <div class="mb-2">
+                        <b>Jumlah</b>
+                    </div>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button" id="button-minus">-</button>
+                        <input type="text" class="form-control form-control-sm text-center border-secondary"
+                            id="jumlaItem" value="1" min="0" name="jumlah_item">
+                        <input type="hidden" name="jumlah_item" id="jumlahItemHidden">
+                        <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-5 col-sm-3 col-md-4 col-lg-3 col-xl-3">
-                <button class="btn btn-danger col-12" type="button">
-                    Beli Sekarang
-                </button>
-            </div>
+                @error('jumlah_item')
+                    <div class="text-danger mt-1 d-inline">
+                        {{ $message }}
+                    </div>
+                @enderror
+                @error('jumlah_item_cart')
+                    <div class="text-danger mt-1 d-inline">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <div class="col-5 col-sm-3 col-md-4 col-lg-3 col-xl-4 mt-4">
+                    <button class="btn btn-danger col-12" type="submit">
+                        Beli Sekarang
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
 @section('script')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var inputQuantity = document.getElementById('inputQuantity');
-            var buttonMinus = document.getElementById('button-minus');
-            var buttonPlus = document.getElementById('button-plus');
+            let jumlaItem = document.getElementById('jumlaItem');
+            let buttonMinus = document.getElementById('button-minus');
+            let buttonPlus = document.getElementById('button-plus');
+            let jumlahItemHidden = document.getElementById('jumlahItemHidden');
 
             // Event listener untuk tombol minus
             buttonMinus.addEventListener('click', function() {
-                var value = parseInt(inputQuantity.value, 10);
+                let value = parseInt(jumlaItem.value, 10);
                 if (value > 0) {
-                    inputQuantity.value = value - 1;
+                    jumlaItem.value = value - 1;
                     updateButtonState();
                 }
             });
 
             // Event listener untuk tombol plus
             buttonPlus.addEventListener('click', function() {
-                var value = parseInt(inputQuantity.value, 10);
-                inputQuantity.value = value + 1;
+                let value = parseInt(jumlaItem.value, 10);
+                jumlaItem.value = value + 1;
                 updateButtonState();
             });
 
             // Fungsi untuk memperbarui status tombol plus dan input number
             function updateButtonState() {
-                var value = parseInt(inputQuantity.value, 10);
+                let value = parseInt(jumlaItem.value, 10);
 
                 // Menonaktifkan tombol plus jika nilai sudah lebih dari samadengan jumlah stok
                 if (value >= {{ $produk->stok }}) {
                     buttonPlus.disabled = true;
                     buttonPlus.classList.add('disabled');
                     buttonPlus.classList.add('border-secondary');
+                    jumlahItemHidden.value = value
                 } else {
                     buttonPlus.disabled = false;
                     buttonPlus.classList.remove('disabled');
@@ -101,11 +117,13 @@
                     buttonPlus.classList.add('border-secondary');
                 }
 
-                // Mematikan inputQuantity ketika nilainya mencapai 0 atau lebih dari 10
+                // Mematikan jumlaItem ketika nilainya mencapai 0 atau lebih dari 10
                 if (value <= 0 || value >= {{ $produk->stok }}) {
-                    inputQuantity.disabled = true;
+                    jumlaItem.disabled = true;
+                    jumlahItemHidden.disabled = false
                 } else {
-                    inputQuantity.disabled = false;
+                    jumlaItem.disabled = false;
+                    jumlahItemHidden.disabled = true
                 }
             }
 

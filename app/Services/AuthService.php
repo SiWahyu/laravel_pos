@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Customer;
 use App\Models\User;
 
 interface AuthService
@@ -13,5 +14,5 @@ interface AuthService
 
     function logout();
 
-    function registerUser(array $data);
+    function registerCustomer(User $user, Customer $customer);
 }

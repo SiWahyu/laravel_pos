@@ -48,6 +48,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{karyawan}/register', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'form-register'])->name('karyawan.create-akun');
         Route::post('/{karyawan}/register', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'register'])->name('karyawan.register');
     });
+
+    Route::get('/produk', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'list'])->name('main.produk-list');
+    Route::get('/produk/{produk}', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'detail'])->name('main.produk-detail');
+
+    Route::get('/cart', [\App\Http\Controllers\Customer\CartController::class, 'index'])->name('cart.data');
+    Route::post('/cart/{produk}', [\App\Http\Controllers\Customer\CartController::class, 'store'])->name('cart.store');
 });
 
 
@@ -57,6 +63,3 @@ Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'authen
 Route::get('/logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [App\Http\Controllers\Auth\AuthController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\AuthController::class, 'registerUser'])->name('register.register-user');
-
-Route::get('/produk', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'list'])->name('main.produk-list');
-Route::get('/produk/{produk}', [\App\Http\Controllers\Main\Produk\ProdukController::class, 'detail'])->name('main.produk-detail');
