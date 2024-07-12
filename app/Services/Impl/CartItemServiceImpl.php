@@ -28,22 +28,37 @@ class CartItemServiceImpl implements CartItemService
 
     function create(Cart $cart, Produk $produk, array $data)
     {
-        if ($cartItem = $this->findByProdukId($produk)) {
+        try {
 
-            if (($cartItem->jumlah + $data['jumlah_item']) > $cartItem->produk->stok) {
-                throw ValidationException::withMessages([
-                    'jumlah_cart' => "Jumlah produk di cart melebihi jumlah stok"
-                ]);
+            if ($cartItem = $this->findByProdukId($produk)) {
+
+                if (($cartItem->jumlah + $data['jumlah_item']) > $cartItem->produk->stok) {
+                    throw ValidationException::withMessages([
+                        'jumlah_cart' => "Jumlah produk di cart melebihi jumlah stok"
+                    ]);
+                }
+
+                $cartItem->jumlah += $data['jumlah_item'];
+                return $cartItem->save();
             }
 
-            $cartItem->jumlah += $data['jumlah_item'];
-            return $cartItem->save();
+            return $cartItem = CartItem::create([
+                'cart_id' => $cart->id,
+                'produk_id' => $produk->id,
+                'jumlah' => $data['jumlah_item']
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
         }
+    }
 
-        return $cartItem = CartItem::create([
-            'cart_id' => $cart->id,
-            'produk_id' => $produk->id,
-            'jumlah' => $data['jumlah_item']
-        ]);
+    function delete(CartItem $cartItem)
+    {
+        try {
+
+            return $cartItem->delete();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

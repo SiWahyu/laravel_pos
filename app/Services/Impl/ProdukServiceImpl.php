@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Storage;
 class ProdukServiceImpl implements ProdukService
 {
 
+    function getFiltered(array $filter)
+    {
+        $query = Produk::query();
+
+        if (!empty($filter['kategori'])) {
+            $query->whereHas('kategori', function ($query) use ($filter) {
+                $query->where('nama', $filter['kategori']);
+            });
+        }
+        if (!empty($filter['nama'])) {
+            $query->where('nama', 'like', $filter['nama'] . "%");
+        }
+
+        return $query->with('kategori')->get();
+    }
+
     function getAll()
     {
         // data produk beserta kategori nya

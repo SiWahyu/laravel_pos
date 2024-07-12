@@ -18,6 +18,26 @@
 @endsection
 @section('content')
     <div class="mt-4">
+        <form action="" method="get">
+            <div class="d-flex justify-content-start mb-3 gap-3">
+                <div class="form-group">
+                    <select class="form-select" id="basicSelect" name="kategori">
+                        <option {{ request('kategori') ? '' : 'selected' }} value="">Kategori</option>
+                        @foreach ($dataKategori as $kategori)
+                            <option {{ request('kategori') == $kategori->nama ? 'selected' : '' }}
+                                value="{{ $kategori->nama }}">{{ $kategori->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nama" placeholder="Nama Produk" name="nama"
+                        value="{{ request('nama') }}">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </div>
+            </div>
+        </form>
         @if ($dataProduk->isEmpty())
             <h4 class="text-center fw-light">Data Kosong</h4>
         @endif

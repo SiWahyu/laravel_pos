@@ -10,13 +10,14 @@ use App\Http\Requests\Auth\LoginPostRequest;
 use App\Http\Requests\Auth\RegisterPostRequest;
 use App\Services\CartService;
 use App\Services\CustomerService;
+use App\Services\RoleService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
 
-    function __construct(private AuthService $authService, private UserService $userService, private CustomerService $customerService, private CartService $cartService)
+    function __construct(private AuthService $authService, private UserService $userService, private CustomerService $customerService, private CartService $cartService, private RoleService $roleService)
     {
     }
 
@@ -34,7 +35,13 @@ class AuthController extends Controller
             // validated user
             $user = $this->authService->authenticate($request->validated());
 
-            return redirect()->route('dashboard.index');
+            // mengecek role user bertugas/berperan dalam mengelola aplikasi
+            if (!$user->hasRole('Customer')) {
+
+                return redirect()->route('dashboard.index');
+            }
+
+            return redirect()->route('main.produk-list');
         } catch (\Throwable $th) {
 
             return back()->withErrors(['email' => $th->getMessage()])->onlyInput('email');

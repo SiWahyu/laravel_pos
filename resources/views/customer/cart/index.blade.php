@@ -46,7 +46,12 @@
                                             <td> Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                                                    <form action="{{ route('cart.delete-item', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                                                    </form>
                                                     <button class="btn btn-sm"><i class="bi bi-pencil"></i></button>
                                                 </div>
                                             </td>
@@ -67,103 +72,74 @@
                 <div class="card-content">
                     <div class="card-body">
                         <hr>
-                        <ul class="list-group">
-                            @foreach ($cart->cart_items as $item)
+                        @if (!$cart->cart_items->isEmpty())
+                            <ul class="list-group">
+                                @foreach ($cart->cart_items as $item)
+                                    <li class="list-group-item">
+                                        <div>{{ $item->produk->nama }}</div>
+                                        <div class="d-flex justify-content-between">
+                                            <div>{{ $item->jumlah }} x
+                                                {{ number_format($item->produk->harga, 0, ',', '.') }}
+                                            </div>
+                                            <div class="text-danger">
+                                                Rp
+                                                {{ number_format($item->produk->harga * $item->jumlah, 0, ',', '.') }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <hr>
+                            <ul class="list-group mb-4">
                                 <li class="list-group-item">
-                                    <div>{{ $item->produk->nama }}</div>
                                     <div class="d-flex justify-content-between">
-                                        <div>{{ $item->jumlah }} x {{ number_format($item->produk->harga, 0, ',', '.') }}
-                                        </div>
-                                        <div class="text-danger">
-                                            Rp
-                                            {{ number_format($item->produk->harga * $item->jumlah, 0, ',', '.') }}
-                                        </div>
+                                        <div class="fw-bolder">Totol Harga</div>
+                                        <div class="fw-bolder text-danger">RP
+                                            {{ number_format($totalHarga, 0, ',', '.') }}</div>
                                     </div>
                                 </li>
-                            @endforeach
-                        </ul>
-                        <hr>
-                        <ul class="list-group mb-4">
-                            <li class="list-group-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="fw-bolder">Totol Harga</div>
-                                    <div class="fw-bolder text-danger">RP
-                                        {{ number_format($totalHarga, 0, ',', '.') }}</div>
+                            </ul>
+                            <button class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#checkout"
+                                data-bs-backdrop="false" type="button">Checkout</button>
+                            <div class="modal fade text-left modal-borderless" id="checkout" tabindex="-1"
+                                aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true"
+                                data-bs-backdrop="false">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Pilih Pembayaran</h5>
+                                            <button type="button" class="close rounded-pill" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-x">
+                                                    <line x1="18" y1="6" x2="6" y2="18">
+                                                    </line>
+                                                    <line x1="6" y1="6" x2="18" y2="18">
+                                                    </line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <a href="{{ route('order.checkout') }}">
+                                                <div class="alert border border-primary text-center fw-bolder">
+                                                    Tunai
+                                                </div>
+                                            </a>
+                                            <a href="">
+                                                <div class="alert border border-primary text-center fw-bolder">
+                                                    Non Tunai
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul>
-                        <form action="">
-                            <button class="btn btn-primary col-12">Checkout</button>
-                        </form>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var inputQuantity = document.getElementById('inputQuantity');
-            var buttonMinus = document.getElementById('button-minus');
-            var buttonPlus = document.getElementById('button-plus');
-
-            // Event listener untuk tombol minus
-            buttonMinus.addEventListener('click', function() {
-                var value = parseInt(inputQuantity.value, 10);
-                if (value > 0) {
-                    inputQuantity.value = value - 1;
-                    updateButtonState();
-                }
-            });
-
-            // Event listener untuk tombol plus
-            buttonPlus.addEventListener('click', function() {
-                var value = parseInt(inputQuantity.value, 10);
-                inputQuantity.value = value + 1;
-                updateButtonState();
-            });
-
-            // Fungsi untuk memperbarui status tombol plus dan input number
-            function updateButtonState() {
-                var value = parseInt(inputQuantity.value, 10);
-
-                // Menonaktifkan tombol plus jika nilai sudah lebih dari samadengan jumlah stok
-                if (value >= {{ $produk->stok }}) {
-                    buttonPlus.disabled = true;
-                    buttonPlus.classList.add('disabled');
-                    buttonPlus.classList.add('border-secondary');
-                } else {
-                    buttonPlus.disabled = false;
-                    buttonPlus.classList.remove('disabled');
-                }
-
-                if (value <= 0) {
-                    buttonMinus.disabled = true;
-                    buttonMinus.classList.add('disabled');
-                } else {
-                    buttonMinus.disabled = false;
-                    buttonMinus.classList.remove('disabled');
-                }
-
-                // Menonaktifkan tombol minus jika nilai sudah 1
-                if (value === 1) {
-                    buttonMinus.disabled = true;
-                    buttonMinus.classList.add('disabled');
-                    buttonPlus.classList.add('border-secondary');
-                }
-
-                // Mematikan inputQuantity ketika nilainya mencapai 0 atau lebih dari 10
-                if (value <= 0 || value >= {{ $produk->stok }}) {
-                    inputQuantity.disabled = true;
-                } else {
-                    inputQuantity.disabled = false;
-                }
-            }
-
-            // Memanggil fungsi pertama kali untuk menginisialisasi status tombol plus dan input number
-            updateButtonState();
-        });
-    </script> --}}
-
 @endsection

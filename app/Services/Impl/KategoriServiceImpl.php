@@ -9,6 +9,11 @@ use App\Services\KategoriService;
 class KategoriServiceImpl implements KategoriService
 {
 
+    function getAll()
+    {
+        return Kategori::all();
+    }
+
     function findById(int $id): Kategori
     {
         return Kategori::find($id)->first();

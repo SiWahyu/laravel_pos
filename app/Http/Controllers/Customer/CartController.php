@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\CartPostRequest;
+use App\Models\CartItem;
 use App\Models\Produk;
 use App\Services\CartItemService;
 use App\Services\CartService;
@@ -34,5 +35,17 @@ class CartController extends Controller
             Log::error('Error Create Cart Item : ' . $th->getMessage());
             return back()->withErrors(["jumlah_item_cart" => $th->getMessage()]);
         }
+    }
+
+    public function deleteItem(CartItem $cartItem)
+    {
+        try {
+
+            $this->cartItemService->delete($cartItem);
+        } catch (\Throwable $th) {
+            Log::error("Error Delete Cart Item : " . $th->getMessage());
+        }
+
+        return back();
     }
 }

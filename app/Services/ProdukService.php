@@ -7,6 +7,8 @@ use App\Models\Produk;
 interface ProdukService
 {
 
+    function getFiltered(array $filter);
+
     function getAll();
 
     function create(array $data);

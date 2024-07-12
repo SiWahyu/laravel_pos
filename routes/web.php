@@ -54,6 +54,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/cart', [\App\Http\Controllers\Customer\CartController::class, 'index'])->name('cart.data');
     Route::post('/cart/{produk}', [\App\Http\Controllers\Customer\CartController::class, 'store'])->name('cart.store');
+    Route::delete('/cart/{cartItem}', [\App\Http\Controllers\Customer\CartController::class, 'deleteItem'])->name('cart.delete-item');
+
+    Route::get('/order', function () {
+
+        return view('customer.order.checkout');
+    })->name('order.checkout');
 });
 
 
