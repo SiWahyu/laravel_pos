@@ -98,6 +98,20 @@
                         <span>Customer</span>
                     </a>
                 </li>
+                <li class="sidebar-item  has-sub {{ request()->routeIs('karyawan.*') ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-person-up"></i>
+                        <span>Order</span>
+                    </a>
+                    <ul class="submenu {{ request()->routeIs('order.*') ? 'submenu-open' : 'submenu-closed' }}">
+                        <li class="submenu-item {{ request()->routeIs('order.data') ? 'active' : '' }}">
+                            <a href="{{ route('order.data') }}" class="submenu-link">Data</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('order.search') ? 'active' : '' }}">
+                            <a href="{{ route('order.search') }}" class="submenu-link ">Cari</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

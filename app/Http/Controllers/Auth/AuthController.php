@@ -83,7 +83,14 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route(route: 'dashboard.index');
+
+            // mengecek role user bertugas/berperan dalam mengelola aplikasi
+            if (!$user->hasRole('Customer')) {
+
+                return redirect()->route('dashboard.index');
+            }
+
+            return redirect()->route('main.produk-list');
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error('Error Register User : ' . $th->getMessage() . " " . Carbon::now()->format('l, d F Y H:i:s'));

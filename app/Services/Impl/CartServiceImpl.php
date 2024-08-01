@@ -4,6 +4,7 @@ namespace App\Services\Impl;
 
 use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Customer;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Log;
@@ -46,5 +47,15 @@ class CartServiceImpl implements CartService
         return $cart->cart_items->sum(function ($item) {
             return $item->jumlah * $item->produk->harga;
         });
+    }
+
+    function deleteItem(Cart $cart)
+    {
+        try {
+
+            $deleteItem = $cart->cart_items()->delete();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

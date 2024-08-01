@@ -4,6 +4,7 @@ namespace App\Services\Impl;
 
 use App\Models\Produk;
 use App\Services\ProdukService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProdukServiceImpl implements ProdukService

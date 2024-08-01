@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace App\Http\Controllers\Customer\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\CartPostRequest;
@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
-
     public function __construct(private CartService $cartService, private CartItemService $cartItemService)
     {
     }

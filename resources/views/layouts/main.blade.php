@@ -47,7 +47,6 @@
     <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
 
     @yield('script')
-    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
 
 </body>
 

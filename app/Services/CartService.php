@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Cart;
 use App\Models\Customer;
 
 interface CartService
@@ -12,4 +13,6 @@ interface CartService
     function create(Customer $customer);
 
     function totalPaidPrice();
+
+    function deleteItem(Cart $cart);
 }

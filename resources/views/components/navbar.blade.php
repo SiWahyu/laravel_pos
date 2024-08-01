@@ -19,7 +19,7 @@
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md">
-                                    <img src="{{ asset('assets/compiled/jpg/5.jpg') }}">
+                                    <img src="{{ asset('assets/compiled/jpg/5.jpg') }}" alt="profile">
                                 </div>
                             </div>
                         </div>
@@ -32,9 +32,12 @@
                         @hasrole('Customer')
                             <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i>
                                     Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('cart.data') }}"><i
+                            <li><a class="dropdown-item" href="{{ route('customer.cart.data') }}"><i
                                         class="icon-mid bi bi-cart me-2 "></i>
                                     Cart</a></li>
+                            <li><a class="dropdown-item" href="{{ route('customer.order.data') }}"><i
+                                        class="icon-mid bi bi-wallet me-2 "></i>
+                                    Order</a></li>
                         @endhasrole
                         <li>
                             <hr class="dropdown-divider">

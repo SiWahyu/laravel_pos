@@ -54,5 +54,11 @@ class ServiceServiceProvider extends ServiceProvider
         $this->app->bind(\App\Services\CartItemService::class, function ($app) {
             return new \App\Services\Impl\CartItemServiceImpl();
         });
+        $this->app->bind(\App\Services\OrderService::class, function ($app) {
+            return new \App\Services\Impl\OrderServiceImpl();
+        });
+        $this->app->bind(\App\Services\OrderItemService::class, function ($app) {
+            return new \App\Services\Impl\OrderItemServiceImpl();
+        });
     }
 }

@@ -22,7 +22,7 @@
                 src="{{ asset('storage/images/produk/' . $produk->gambar) }}" alt="{{ $produk->nama }}" width="600px">
         </div>
         <div class="col-md-6">
-            <form action="{{ route('cart.store', $produk->id) }}" method="post">
+            <form action="{{ route('customer.cart.store', $produk->id) }}" method="post">
                 @csrf
                 <span class="h2 fw-bolder">{{ $produk->nama }}</span>
                 <div class="mb-3 mt-3">
