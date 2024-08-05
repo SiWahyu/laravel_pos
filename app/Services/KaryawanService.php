@@ -14,4 +14,6 @@ interface KaryawanService
     function update(Karyawan $karyawan, array $data);
 
     function delete(Karyawan $karyawan);
+
+    function count(): int;
 }

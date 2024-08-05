@@ -55,4 +55,12 @@ class KategoriServiceImpl implements KategoriService
             throw $th;
         }
     }
+
+    function count(): int
+    {
+
+        $total = Kategori::count('id');
+
+        return $total;
+    }
 }

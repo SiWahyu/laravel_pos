@@ -5,10 +5,9 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\Kategori\KategoriController;
 use App\Http\Controllers\Dashboard\Produk\ProdukController;
 
+Route::redirect('/', '/login');
+
 Route::middleware(['auth'])->group(function () {
-
-
-
     Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -16,37 +15,41 @@ Route::middleware(['auth'])->group(function () {
         // Kategori
         Route::prefix('/kategori')->group(function () {
             Route::get('', [KategoriController::class, 'index'])->name('kategori.data');
-            Route::get('/create', [KategoriController::class, 'create'])->name('kategori.create');
-            Route::post('/create', [KategoriController::class, 'store'])->name('kategori.store');
-            Route::get('/{kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-            Route::put('/{kategori}/edit', [KategoriController::class, 'update'])->name('kategori.update');
-            Route::delete('/{kategori}/delete', [KategoriController::class, 'delete'])->name('kategori.delete');
+            Route::middleware(['role:Admin|Gudang'])->group(function () {
+                Route::get('/create', [KategoriController::class, 'create'])->name('kategori.create');
+                Route::post('/create', [KategoriController::class, 'store'])->name('kategori.store');
+                Route::get('/{kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+                Route::put('/{kategori}/edit', [KategoriController::class, 'update'])->name('kategori.update');
+                Route::delete('/{kategori}/delete', [KategoriController::class, 'delete'])->name('kategori.delete');
+            });
         });
 
         // Produk
         Route::prefix('/produk')->group(function () {
             Route::get('', [ProdukController::class, 'index'])->name('produk.data');
-            Route::get('/create', [ProdukController::class, 'create'])->name('produk.create');
-            Route::get('/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
-            Route::put('/{produk}/edit', [ProdukController::class, 'update'])->name('produk.update');
-            Route::post('/create', [ProdukController::class, 'store'])->name('produk.store');
-            Route::delete('/{produk}/delete', [ProdukController::class, 'delete'])->name('produk.delete');
-        });
-
-        // Customer
-        Route::prefix('/customer')->group(function () {
-            Route::get('', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'index'])->name('customer.data');
-            Route::delete('/{customer}/delete', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'delete'])->name('customer.delete');
+            Route::middleware(['role:Admin|Gudang'])->group(function () {
+                Route::get('/create', [ProdukController::class, 'create'])->name('produk.create');
+                Route::get('/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
+                Route::put('/{produk}/edit', [ProdukController::class, 'update'])->name('produk.update');
+                Route::post('/create', [ProdukController::class, 'store'])->name('produk.store');
+                Route::delete('/{produk}/delete', [ProdukController::class, 'delete'])->name('produk.delete');
+            });
         });
 
         // Karyawan
-        Route::prefix('/karyawan')->group(function () {
+        Route::prefix('/karyawan')->middleware(['role:Admin'])->group(function () {
             Route::get('', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'index'])->name('karyawan.data');
             Route::get('/create', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'create'])->name('karyawan.create');
             Route::post('/create', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'store'])->name('karyawan.store');
             Route::get('/{karyawan}/edit', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'edit'])->name('karyawan.edit');
             Route::put('/{karyawan}/edit', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'update'])->name('karyawan.update');
             Route::delete('/{karyawan}delete', [\App\Http\Controllers\Dashboard\Karyawan\KaryawanController::class, 'delete'])->name('karyawan.delete');
+        });
+
+        // Customer
+        Route::prefix('/customer')->middleware(['role:Admin'])->group(function () {
+            Route::get('', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'index'])->name('customer.data');
+            Route::delete('/{customer}/delete', [\App\Http\Controllers\Dashboard\Customer\CustomerController::class, 'delete'])->name('customer.delete');
         });
 
         Route::prefix('/order')->group(function () {

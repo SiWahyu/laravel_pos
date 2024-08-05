@@ -50,4 +50,11 @@ class CustomerServiceImpl implements CustomerService
             throw $th;
         }
     }
+
+    function count(): int
+    {
+        $total = Customer::count('id');
+
+        return $total;
+    }
 }

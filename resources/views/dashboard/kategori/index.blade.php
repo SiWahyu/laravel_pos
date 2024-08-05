@@ -29,24 +29,29 @@
                 <thead>
                     <tr>
                         <th>Kategori</th>
-                        <th class="text-center">Action</th>
+                        @if (auth()->user()->hasRole('Admin|Gudang'))
+                            <th class="text-center">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($dataKategori as $kategori)
                         <tr>
                             <td>{{ $kategori->nama }}</td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('kategori.edit', $kategori->id) }}" class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('kategori.delete', $kategori->id) }}" method="post"
-                                        onclick="confirm('Yakin ingin menghapus {{ $kategori->nama }} ?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            @if (auth()->user()->hasRole('Admin|Gudang'))
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ route('kategori.edit', $kategori->id) }}"
+                                            class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('kategori.delete', $kategori->id) }}" method="post"
+                                            onclick="confirm('Yakin ingin menghapus {{ $kategori->nama }} ?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

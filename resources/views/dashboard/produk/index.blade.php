@@ -34,7 +34,9 @@
                         <th>Harga</th>
                         <th>Stok</th>
                         <th>Gambar</th>
-                        <th class="text-center">Action</th>
+                        @if (auth()->user()->hasRole('Admin|Gudang'))
+                            <th class="text-center">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -47,18 +49,20 @@
                             <td>{{ $produk->stok }}</td>
                             <td><img src="{{ asset('storage/images/produk/' . $produk->gambar) }}" alt=""
                                     width="70"></td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('produk.edit', $produk->id) }}"
-                                        class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('produk.delete', $produk->id) }}" method="post"
-                                        onclick="confirm('Yakin ingin menghapus {{ $produk->nama }} ?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            @if (auth()->user()->hasRole('Admin|Gudang'))
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ route('produk.edit', $produk->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('produk.delete', $produk->id) }}" method="post"
+                                            onclick="confirm('Yakin ingin menghapus {{ $produk->nama }} ?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

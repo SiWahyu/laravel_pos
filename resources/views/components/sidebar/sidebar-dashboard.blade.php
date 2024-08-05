@@ -59,9 +59,11 @@
                         <li class="submenu-item {{ request()->routeIs('kategori.data') ? 'active' : '' }}">
                             <a href="{{ route('kategori.data') }}" class="submenu-link">Data</a>
                         </li>
-                        <li class="submenu-item {{ request()->routeIs('kategori.create') ? 'active' : '' }}">
-                            <a href="{{ route('kategori.create') }}" class="submenu-link ">Tambah</a>
-                        </li>
+                        @if (auth()->user()->hasAnyRole('Admin|Gudang'))
+                            <li class="submenu-item {{ request()->routeIs('kategori.create') ? 'active' : '' }}">
+                                <a href="{{ route('kategori.create') }}" class="submenu-link ">Tambah</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
                 <li class="sidebar-item  has-sub {{ request()->routeIs('produk.*') ? 'active' : '' }}">
@@ -73,45 +75,53 @@
                         <li class="submenu-item {{ request()->routeIs('produk.data') ? 'active' : '' }}">
                             <a href="{{ route('produk.data') }}" class="submenu-link">Data</a>
                         </li>
-                        <li class="submenu-item {{ request()->routeIs('produk.create') ? 'active' : '' }}">
-                            <a href="{{ route('produk.create') }}" class="submenu-link ">Tambah</a>
-                        </li>
+                        @if (auth()->user()->hasRole('Admin|Gudang'))
+                            <li class="submenu-item {{ request()->routeIs('produk.create') ? 'active' : '' }}">
+                                <a href="{{ route('produk.create') }}" class="submenu-link ">Tambah</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
-                <li class="sidebar-item  has-sub {{ request()->routeIs('karyawan.*') ? 'active' : '' }}">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-person-up"></i>
-                        <span>Karyawan</span>
-                    </a>
-                    <ul class="submenu {{ request()->routeIs('karyawan.*') ? 'submenu-open' : 'submenu-closed' }}">
-                        <li class="submenu-item {{ request()->routeIs('karyawan.data') ? 'active' : '' }}">
-                            <a href="{{ route('karyawan.data') }}" class="submenu-link">Data</a>
-                        </li>
-                        <li class="submenu-item {{ request()->routeIs('karyawan.create') ? 'active' : '' }}">
-                            <a href="{{ route('karyawan.create') }}" class="submenu-link ">Tambah</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item {{ request()->routeIs('customer.data') ? 'active' : '' }}">
-                    <a href="{{ route('customer.data') }}" class='sidebar-link'>
-                        <i class="bi bi-person-badge"></i>
-                        <span>Customer</span>
-                    </a>
-                </li>
-                <li class="sidebar-item  has-sub {{ request()->routeIs('karyawan.*') ? 'active' : '' }}">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-person-up"></i>
-                        <span>Order</span>
-                    </a>
-                    <ul class="submenu {{ request()->routeIs('order.*') ? 'submenu-open' : 'submenu-closed' }}">
-                        <li class="submenu-item {{ request()->routeIs('order.data') ? 'active' : '' }}">
-                            <a href="{{ route('order.data') }}" class="submenu-link">Data</a>
-                        </li>
-                        <li class="submenu-item {{ request()->routeIs('order.search') ? 'active' : '' }}">
-                            <a href="{{ route('order.search') }}" class="submenu-link ">Cari</a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->hasRole('Admin'))
+                    <li class="sidebar-item  has-sub {{ request()->routeIs('karyawan.*') ? 'active' : '' }}">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-person-up"></i>
+                            <span>Karyawan</span>
+                        </a>
+                        <ul class="submenu {{ request()->routeIs('karyawan.*') ? 'submenu-open' : 'submenu-closed' }}">
+                            <li class="submenu-item {{ request()->routeIs('karyawan.data') ? 'active' : '' }}">
+                                <a href="{{ route('karyawan.data') }}" class="submenu-link">Data</a>
+                            </li>
+                            <li class="submenu-item {{ request()->routeIs('karyawan.create') ? 'active' : '' }}">
+                                <a href="{{ route('karyawan.create') }}" class="submenu-link ">Tambah</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->hasRole('Admin'))
+                    <li class="sidebar-item {{ request()->routeIs('customer.data') ? 'active' : '' }}">
+                        <a href="{{ route('customer.data') }}" class='sidebar-link'>
+                            <i class="bi bi-person-badge"></i>
+                            <span>Customer</span>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->user()->hasAnyRole('Admin|Kasir'))
+                    <li class="sidebar-item  has-sub {{ request()->routeIs('order.*') ? 'active' : '' }}">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-person-up"></i>
+                            <span>Order</span>
+                        </a>
+                        <ul class="submenu {{ request()->routeIs('order.*') ? 'submenu-open' : 'submenu-closed' }}">
+                            <li class="submenu-item {{ request()->routeIs('order.data') ? 'active' : '' }}">
+                                <a href="{{ route('order.data') }}" class="submenu-link">Data</a>
+                            </li>
+                            <li class="submenu-item {{ request()->routeIs('order.search') ? 'active' : '' }}">
+                                <a href="{{ route('order.search') }}" class="submenu-link ">Cari</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

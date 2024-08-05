@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Customer'],
             ['name' => 'Kasir'],
             ['name' => 'Gudang'],
-            ['name' => 'Barang'],
         ];
 
         foreach ($roles as $role) {

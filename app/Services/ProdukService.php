@@ -16,4 +16,6 @@ interface ProdukService
     function update(Produk $produk, array $data);
 
     function delete(Produk $produk);
+
+    function count(): int;
 }

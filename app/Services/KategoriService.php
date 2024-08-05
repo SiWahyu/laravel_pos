@@ -17,4 +17,6 @@ interface KategoriService
     function create(array $data);
 
     function delete(Kategori $kategori);
+
+    function count(): int;
 }

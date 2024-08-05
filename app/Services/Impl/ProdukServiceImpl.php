@@ -108,4 +108,11 @@ class ProdukServiceImpl implements ProdukService
             throw $th;
         }
     }
+
+    function count(): int
+    {
+        $total = Produk::count('id');
+
+        return $total;
+    }
 }

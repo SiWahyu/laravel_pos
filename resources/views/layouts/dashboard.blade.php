@@ -25,7 +25,7 @@
 <body>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
     <div id="app">
-        <x-sidebar.sidebar-admin />
+        <x-sidebar.sidebar-dashboard />
         <div id="main" class='layout-navbar navbar-fixed'>
             <x-navbar />
             <div id="main-content">

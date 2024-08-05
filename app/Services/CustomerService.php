@@ -13,4 +13,6 @@ interface CustomerService
     function delete(Customer $customer);
 
     function create(User $user);
+
+    function count(): int;
 }

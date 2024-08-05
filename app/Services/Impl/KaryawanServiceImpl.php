@@ -107,4 +107,11 @@ class KaryawanServiceImpl implements KaryawanService
             throw $th;
         }
     }
+
+    function count(): int
+    {
+        $total = Karyawan::count('id');
+
+        return $total;
+    }
 }
